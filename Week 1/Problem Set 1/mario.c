@@ -1,42 +1,65 @@
 #include <cs50.h>
 #include <stdio.h>
 
-//ATUALMENTE TENTANDO ALTERAR A LOGICA DE ESPACOS
+int getSizePyramids();
+void mountPyramids(int sizePyramids);
 
 int main(void)
 {
+    int sizePyramids = getSizePyramids();
+    mountPyramids(sizePyramids);
+}
 
-    int height = 0;
-
-    do {
-    height = get_int("Please enter the height between 1 and 8: ");
-    if( (height < 1) || (height > 8)  ) {
-        printf("The entered and invalid value \n");
-
+int getSizePyramids()
+{
+    int sizePyramids = 0;
+    do
+    {
+        sizePyramids = get_int("Please enter the height between 1 and 8: ");
+        if ((sizePyramids < 1) || (sizePyramids > 8))
+        {
+            printf("The entered and invalid value \n");
+        }
     }
+    while ((sizePyramids < 1) || (sizePyramids > 8));
+    return sizePyramids;
+}
 
-    } while( (height < 1) || (height > 8) );
+void mountLeftPyramids(int i, int sizePyramids, int space);
+void mountRightPyramids(int i, int space);
 
-    int loop = height;
-
-    for(int i = 1; i <= loop; i++) {
-         int space = 8 - i;
-         height = height - 1;
-
-        for(int j = 0; j < height; j++) {
-            printf(" ");
-        }
-        int hash = 8 - space;
-        for(int h = 0; h < hash; h++) {
-            printf("#");
-
-        }
-             printf("  ");
-        for(int h2 = 0; h2 < hash; h2++) {
-
-            printf("#");
-        }
-        printf("\n");
+void mountPyramids(int sizePyramids)
+{
+    int loop = sizePyramids;
+    for (int i = 1; i <= loop; i++)
+    {
+        int space = 8 - i;
+        sizePyramids = sizePyramids - 1;
+        mountLeftPyramids(i, sizePyramids, space);
+        printf("  ");
+        mountRightPyramids(i, space);
     }
+}
 
+void mountLeftPyramids(int i, int sizePyramids, int space)
+{
+    for (int j = 0; j < sizePyramids; j++)
+    {
+        printf(" ");
+    }
+    int hash = 8 - space;
+    for (int h = 0; h < hash; h++)
+    {
+        printf("#");
+    }
+}
+
+void mountRightPyramids(int i, int space)
+{
+    int hash = 8 - space;
+    for (int h2 = 0; h2 < hash; h2++)
+    {
+        printf("#");
+    }
+    printf("\n");
 }
