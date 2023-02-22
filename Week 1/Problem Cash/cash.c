@@ -2,60 +2,100 @@
 #include <stdio.h>
 #include <math.h>
 
-int main(void) {
+int get_cents(void);
+int calculate_quarters(int cents);
+int calculate_dimes(int cents);
+int calculate_nickels(int cents);
+int calculate_pennies(int cents);
 
-float dolar = 0;
+int main(void)
+{
+    // Ask how many cents the customer is owed
+    int cents = get_cents();
+    printf("Valor de CENTES: %i\n", cents);
 
-do{
+    // Calculate the number of quarters to give the customer
+    int quarters = calculate_quarters(cents);
+    cents = cents - quarters * 25;
 
- dolar = get_float("Change owed: ");
+    // Calculate the number of dimes to give the customer
+    int dimes = calculate_dimes(cents);
+    cents = cents - dimes * 10;
 
-} while(dolar <= 0);
+    // Calculate the number of nickels to give the customer
+    int nickels = calculate_nickels(cents);
+    cents = cents - nickels * 5;
 
-int centes = round(dolar * 100);
+    // Calculate the number of pennies to give the customer
+    int pennies = calculate_pennies(cents);
+    cents = cents - pennies * 1;
 
-int cont = 0;
+    // Sum coins
+    int coins = quarters + dimes + nickels + pennies;
 
-do {
- 
-    for(int i = centes; i >= 25; i -= 25 ){
-
-         if(centes >= 25) {
-         centes -= 25;
-         cont += 1;
-        }
-
+    // Print total number of coins to give the customer
+    printf("%i\n", coins);
 }
 
-    for(int i = centes; i >= 10; i -= 10 ){
-
-         if(centes >= 10) {
-         centes -= 10;
-         cont += 1;
-        }
-
+int get_cents(void)
+{
+    int dolar = 0;
+    do
+    {
+        dolar = get_int("Change owed: ");
+    }
+    while (dolar <= 0);
+    return dolar;
 }
 
-    for(int i = centes; i >= 5; i -= 5 ){
-
-         if(centes >= 5) {
-         centes -= 5;
-         cont += 1;
+int calculate_quarters(int cents)
+{
+    int countQuarters = 0;
+    for (int i = cents; i >= 25; i -= 25)
+    {
+        if (cents >= 25)
+        {
+            countQuarters += 1;
         }
-
+    }
+    return countQuarters;
 }
 
-    for(int i = centes; i >= 1; i -= 1 ){
-
-         if(centes >= 1) {
-         centes -= 1;
-         cont += 1;
+int calculate_dimes(int cents)
+{
+    int countDimes = 0;
+    for (int i = cents; i >= 10; i -= 10)
+    {
+        if (cents >= 10)
+        {
+            countDimes += 1;
         }
-
+    }
+    return countDimes;
 }
 
-} while(centes > 0);
+int calculate_nickels(int cents)
+{
+    int countNickels = 0;
+    for (int i = cents; i >= 5; i -= 5)
+    {
+        if (cents >= 5)
+        {
+            countNickels += 1;
+        }
+    }
+    return countNickels;
+}
 
-printf("%d\n", cont);
-    
+int calculate_pennies(int cents)
+{
+    int countPennies = 0;
+    for (int i = cents; i >= 1; i -= 1)
+    {
+        if (cents >= 1)
+        {
+            countPennies += 1;
+        }
+    }
+    return countPennies;
 }
