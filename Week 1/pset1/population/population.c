@@ -1,25 +1,12 @@
 #include <cs50.h>
 #include <stdio.h>
 
-int getPopulationStart();
-int getPopulationEnd(int populationStart);
-int calculateYears(int populationStart, int populationEnd);
-
 int main(void)
 {
     // TODO: Prompt for start size
-    int populationStart = getPopulationStart();
-    int populationEnd = getPopulationEnd(populationStart);
-    int years = calculateYears(populationStart, populationEnd);
-
-    // TODO: Print number of years
-    printf("Years: %i\n", years);
-}
-
-// TODO: Prompt for start size
-int getPopulationStart()
-{
     int populationStart;
+    int populationEnd;
+    int years = 0;
     do
     {
         populationStart = get_int("Whats nunber population initial: ");
@@ -30,13 +17,8 @@ int getPopulationStart()
         }
     }
     while (populationStart < 9);
-    return populationStart;
-}
 
-// TODO: Prompt for end size
-int getPopulationEnd(int populationStart)
-{
-    int populationEnd;
+    // TODO: Prompt for end size
     do
     {
         populationEnd = get_int("Whats nunber population final: ");
@@ -47,13 +29,8 @@ int getPopulationEnd(int populationStart)
         }
     }
     while (populationEnd < populationStart);
-    return populationEnd;
-}
 
-// TODO: Calculate number of years until we reach threshold
-int calculateYears(int populationStart, int populationEnd)
-{
-    int years = 0;
+    // TODO: Calculate number of years until we reach threshold
     do
     {
         if (populationStart == populationEnd)
@@ -63,7 +40,11 @@ int calculateYears(int populationStart, int populationEnd)
 
         populationStart += (populationStart / 3) - (populationStart / 4);
         years++;
+
     }
     while (populationStart < populationEnd);
-    return years;
+
+
+    // TODO: Print number of years
+    printf("Years: %i\n", years);
 }
