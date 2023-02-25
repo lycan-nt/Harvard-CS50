@@ -8,18 +8,66 @@ int POINTS[] = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 
 
 int compute_score(string word);
 int getPositionLetter(char letter);
+void printWinner(int score1, int score2);
 
 int main(void)
 {
     // Get input words from both players
     string word1 = get_string("Player 1: ");
     string word2 = get_string("Player 2: ");
-
     // Score both words
     int score1 = compute_score(word1);
     int score2 = compute_score(word2);
-
     // TODO: Print the winner
+    printWinner(score1, score2);
+}
+
+int compute_score(string word)
+{
+    // TODO: Compute and return score for string
+    int score = 0;
+    int position;
+    for (int i = 0; i < word[i] != '\0'; i++)
+    {
+        position = getPositionLetter(word[i]);
+
+        if (position <= 0)
+        {
+            break;
+        }
+
+        score += POINTS[position - 1];
+    }
+    return score;
+}
+
+int getPositionLetter(char letter)
+{
+    char initialLetter;
+    int position = 1;
+    if ((letter >= 'a') && (letter <= 'z'))
+    {
+        initialLetter = 'a';
+    }
+    else if ((letter >= 'A') && (letter <= 'Z'))
+    {
+        initialLetter = 'A';
+    }
+    else
+    {
+        return 0;
+    }
+    for (int cont = 0; initialLetter != letter; cont++)
+    {
+        initialLetter++;
+        position++;
+    }
+    return position;
+}
+
+// TODO: Print the winner
+void printWinner(int score1, int score2)
+{
     if (score1 > score2)
     {
         printf("Player 1 wins!\n");
@@ -33,58 +81,3 @@ int main(void)
         printf("Tie!\n");
     }
 }
-
-int compute_score(string word)
-{
-    // TODO: Compute and return score for string
-
-    int score = 0;
-    int position;
-
-    for (int i = 0; i < word[i] != '\0'; i++)
-    {
-        position = getPositionLetter(word[i]);
-
-        if (position <= 0)
-        {
-            break;
-        }
-
-        score += POINTS[position - 1];
-    }
-
-    return score;
-}
-
-int getPositionLetter(char letter)
-{
-    char initialLetter;
-    int position = 1;
-
-    if ((letter >= 'a') && (letter <= 'z'))
-    {
-        initialLetter = 'a';
-    }
-    else if ((letter >= 'A') && (letter <= 'Z'))
-    {
-        initialLetter = 'A';
-    }
-    else
-    {
-        return 0;
-    }
-
-    for (int cont = 0; initialLetter != letter; cont++)
-    {
-        initialLetter++;
-        position++;
-    }
-
-    return position;
-}
-
-
-
-
-
-
