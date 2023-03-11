@@ -22,16 +22,29 @@ int candidate_count;
 // Function prototypes
 bool vote(string name);
 void print_winner(void);
+int registerCandidates(int argc, string argv[]);
+void collectVotes(int voter_count);
+int countVotes();
 
 int main(int argc, string argv[])
 {
-    // Check for invalid usage
+    int returnRegisterCandidates = registerCandidates(argc, argv);
+    if (returnRegisterCandidates > 0)
+    {
+        return returnRegisterCandidates;
+    }
+    int voter_count = get_int("Number of voters: ");
+    collectVotes(voter_count);
+    print_winner();
+}
+
+int registerCandidates(int argc, string argv[])
+{
     if (argc < 2)
     {
         printf("Usage: plurality [candidate ...]\n");
         return 1;
     }
-
     // Populate array of candidates
     candidate_count = argc - 1;
     if (candidate_count > MAX)
@@ -44,23 +57,21 @@ int main(int argc, string argv[])
         candidates[i].name = argv[i + 1];
         candidates[i].votes = 0;
     }
+    return 0;
+}
 
-    int voter_count = get_int("Number of voters: ");
-
+void collectVotes(int voter_count)
+{
     // Loop over all voters
     for (int i = 0; i < voter_count; i++)
     {
         string name = get_string("Vote: ");
-
         // Check for invalid vote
         if (!vote(name))
         {
             printf("Invalid vote.\n");
         }
     }
-
-    // Display winner of election
-    print_winner();
 }
 
 // Update vote totals given a new vote
@@ -68,40 +79,35 @@ bool vote(string name)
 {
     bool voteValid = false;
     string names = "";
-
     for (int i = 0; i < candidate_count; i++)
     {
         names = candidates[i].name;
-
         if (strcmp(candidates[i].name, name) == 0)
         {
             candidates[i].votes += 1;
             return true;
         }
     }
-
     return false;
 }
 
-// Print the winner (or winners) of the election
-void print_winner(void)
+int countVotes()
 {
-    // TODO
-
     int largerVote = 0;
-    string winner = "Candidate";
-
     for (int i = 0; i < candidate_count; i++)
     {
         if (candidates[i].votes > largerVote)
         {
             largerVote = candidates[i].votes;
-            winner = candidates[i].name;
         }
     }
+    return largerVote;
+}
 
-    //printf("Winner: %s\n", winner);
-
+// Print the winner (or winners) of the election
+void print_winner(void)
+{
+    int largerVote = countVotes();
     for (int i = 0; i < candidate_count; i++)
     {
         if (candidates[i].votes == largerVote)
@@ -109,9 +115,5 @@ void print_winner(void)
             printf("%s\n", candidates[i].name);
         }
     }
-
-
-
     return;
 }
-
